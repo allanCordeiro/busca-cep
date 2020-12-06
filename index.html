@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Formulário para busca de dados à partir do CEP</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>        
+        <style>
+            .container {
+                max-width: 960px;
+                }
+        </style>
+    </head>
+    <body class="bg-light">
+        <div class="container">
+            <div class="py-5 text-center"> 
+                <h1>Formulário de endereço</h1>
+                <p class="lead">
+                    Este formulário utiliza os dados do <a href="https://brasilapi.com.br/">Brasil API</a>, que possui uma função chamada CEP-Promises.
+                    Esta API retorna dados de CEP de vários lugares e com velocidade impressionante. Vale muito a pena utilizá-la.
+                </p>
+            </div>
+            <div class="row">
+                <form>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <label for="cep">CEP</label>
+                            <input type="text" class="form-control" id="cep">                
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <label for="address">Endereço</label>
+                            <input type="text" class="form-control" id="address">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="address-number">Número</label>
+                            <input type="number" class="form-control" id="address-number">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="complement">Complemento</label>
+                            <input type="text" class="form-control" id="complement">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="neighborhood">Bairro</label>
+                            <input type="text" class="form-control" id="neighborhood">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <label for="city">Cidade</label>
+                            <input type="text" class="form-control" id="city">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="state">Estado</label>
+                            <select class="custom-select" id="state" name="state">
+                                <option value="AC">Acre</option>
+                                <option value="AL">Alagoas</option>
+                                <option value="AP">Amapá</option>
+                                <option value="AM">Amazonas</option>
+                                <option value="BA">Bahia</option>
+                                <option value="CE">Ceará</option>
+                                <option value="DF">Distrito Federal</option>
+                                <option value="ES">Espírito Santo</option>
+                                <option value="GO">Goiás</option>
+                                <option value="MA">Maranhão</option>
+                                <option value="MT">Mato Grosso</option>
+                                <option value="MS">Mato Grosso do Sul</option>
+                                <option value="MG">Minas Gerais</option>
+                                <option value="PA">Pará</option>
+                                <option value="PB">Paraíba</option>
+                                <option value="PR">Paraná</option>
+                                <option value="PE">Pernambuco</option>
+                                <option value="PI">Piauí</option>
+                                <option value="RJ">Rio de Janeiro</option>
+                                <option value="RN">Rio Grande do Norte</option>
+                                <option value="RS">Rio Grande do Sul</option>
+                                <option value="RO">Rondônia</option>
+                                <option value="RR">Roraima</option>
+                                <option value="SC">Santa Catarina</option>
+                                <option value="SP">São Paulo</option>
+                                <option value="SE">Sergipe</option>
+                                <option value="TO">Tocantins</option>                                
+                            </select>
+                        </div>
+                    </div>
+                    <hr class="mb-4">
+                    <button class="btn btn-primary btn-lg btn-block">Seguir para pagamento</button>
+                </form>
+            </div>
+        </div>
+    </body>
+    <script>
+        $("#cep").focusout(function() {
+            $.ajax({
+                url: 'https://brasilapi.com.br/api/cep/v1/' + $(this).val(),
+                dataType: 'json',
+                success: function(resposta) {
+                    $('#address').val(resposta.street);
+                    $('#neighborhood').val(resposta.neighborhood);
+                    $('#city').val(resposta.city);
+                    $('#state').val(resposta.state);
+                    $('#address-number').focus();
+                }
+            })
+        });  
+    </script>
+</html>
